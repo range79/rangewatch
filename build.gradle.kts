@@ -45,7 +45,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
-    implementation("software.amazon.awssdk:s3:2.39.6")
+    implementation("software.amazon.awssdk:s3:2.40.3")
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-mediaconvert
     implementation("com.amazonaws:aws-java-sdk-mediaconvert:1.12.794")
 }
