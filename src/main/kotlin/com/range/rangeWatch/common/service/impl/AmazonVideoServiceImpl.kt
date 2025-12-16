@@ -15,7 +15,8 @@ import software.amazon.awssdk.services.s3.S3Client
 class AmazonVideoServiceImpl (
     private val s3Client: S3Client,
 //    private val mediaConvertClient: AWSMediaConvertClient,
-    @Value("\${aws.mediaconvert.role}") private val mediaConvertRole: String
+    @Value("\${aws.mediaconvert.role}")
+    private val mediaConvertRole: String
 ): AmazonVideoService {
     private val log = LoggerFactory.getLogger(AmazonVideoServiceImpl::class.java)
 //Todo i need add ahh media convert to it
@@ -50,28 +51,38 @@ class AmazonVideoServiceImpl (
         )
         return "https://$bucketName.s3.amazonaws.com/$key"
     }
-    override fun deleteVideo(
+    override fun deleteVideoWithLang(
         bucketName: String,
         videoId: String,
-        quality: VideoQuality?,
-        language: DubbingLanguage?
+        language: DubbingLanguage
     ) {
-        val key = if (quality != null && language != null) {
-            "$videoId/${language.name}/${quality.name}.mp4"
-        } else {
-
-            log.info("Deleting all videos for $videoId in bucket $bucketName")
-            return
-        }
+        val prefix = "$videoId/${language.name}/"
 
         try {
-            s3Client.deleteObject {
-                it.bucket(bucketName)
-                it.key(key)
+
+            val objects = s3Client.listObjectsV2 {
+                it.bucket(bucketName).prefix(prefix)
             }
-            log.info("Deleted $key from $bucketName")
+
+            if (objects.contents().isEmpty()) {
+                log.info("No videos found for videoId=$videoId language=$language")
+                return
+            }
+
+
+            objects.contents().forEach { obj ->
+                val key = obj.key()
+                s3Client.deleteObject { del ->
+                    del.bucket(bucketName).key(key)
+                }
+                log.info("Deleted $key from $bucketName")
+            }
+
+            log.info("Deleted all videos for videoId=$videoId language=$language")
+
         } catch (e: Exception) {
-            log.error("Failed to delete $key: ${e.message}")
+            log.error("Failed to delete videos for videoId=$videoId language=$language: ${e.message}")
         }
     }
+
 }

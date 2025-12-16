@@ -13,13 +13,11 @@
 
 ### Prerequisites
 
-1. **Go to `src/main/resources`**
+1. Find **`example.env`** and make your env like that
 
-2. Find **`example.env`** and make your env like that
-
-3. Run with this command if you run in some other IDE:
+2Run with this command if you run in some other IDE:
 ```shell
-export $(grep -v '^#' src/main/resources/.env | xargs) && ./gradlew bootRun
+export $(grep -v '^#' .env | xargs) && ./gradlew bootRun
 ```
 
 ### If you're using IntelliJ IDEA, add env file in app startup

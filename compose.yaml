@@ -7,3 +7,18 @@ services:
       - 'POSTGRES_USER=myuser'
     ports:
       - '5432:5432'
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.5
+    ports:
+      - 9090:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    command:
+      - 'start-dev'
+
+volumes:
+  keycloak_data:

@@ -20,10 +20,12 @@ interface VideoService {
         language: DubbingLanguage = DubbingLanguage.SUB
     ): String
 
-    fun deleteVideo(
+    fun deleteVideoWithLang(
         bucketName: String,
         videoId: String,
-        quality: VideoQuality? = null,
-        language: DubbingLanguage? = null
+        language: DubbingLanguage
     )
+    // todo add deleteing videolist method
+    //  fun deleteVideoList()
+
 }
