@@ -47,7 +47,7 @@ dependencies {
 
     implementation("software.amazon.awssdk:s3:2.40.8")
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-mediaconvert
-    implementation("com.amazonaws:aws-java-sdk-mediaconvert:1.12.795")
+    implementation("com.amazonaws:aws-java-sdk-mediaconvert:1.12.796")
 }
 
 kotlin {
